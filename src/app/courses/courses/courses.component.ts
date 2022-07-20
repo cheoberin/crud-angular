@@ -1,6 +1,8 @@
+import { CoursesService } from './../services/courses.service';
 import { Component, OnInit } from '@angular/core';
 
 import { Course } from './../models/course';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-courses',
@@ -9,15 +11,15 @@ import { Course } from './../models/course';
 })
 export class CoursesComponent implements OnInit {
 
-  public courses: Course[] = [
-    {_id: '1', name: 'Angular', category: 'front-end'},
-    {_id: '2', name: 'CSS', category: 'front-end'}
-  ];
+  public courses$: Observable<Course[]>;
+
   public displayedColumns: string[] = ['name', 'category'];
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(private coursesService: CoursesService) {
+    this.courses$ = this.coursesService.list();
   }
+
+  ngOnInit(): void { }
 
 }
